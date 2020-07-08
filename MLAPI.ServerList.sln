@@ -1,15 +1,21 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLAPI.ServerList.Server", "MLAPI.ServerList.Server\MLAPI.ServerList.Server.csproj", "{A9B57DAF-7FBF-46CF-9BD9-36E925B6EFAA}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MLAPI.ServerList.Server", "MLAPI.ServerList.Server\MLAPI.ServerList.Server.csproj", "{A9B57DAF-7FBF-46CF-9BD9-36E925B6EFAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLAPI.ServerList.Client", "MLAPI.ServerList.Client\MLAPI.ServerList.Client.csproj", "{49D8D72C-8E8C-43A7-A366-E1831EE24625}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MLAPI.ServerList.Client", "MLAPI.ServerList.Client\MLAPI.ServerList.Client.csproj", "{49D8D72C-8E8C-43A7-A366-E1831EE24625}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MLAPI.ServerList.Shared", "MLAPI.ServerList.Shared\MLAPI.ServerList.Shared.shproj", "{E4A4F493-8E04-4CBD-B35A-EA6BA2770045}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientExample", "ClientExample\ClientExample.csproj", "{3EEE2C5A-7B56-4A4E-914C-BFC963E15A4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientExample", "ClientExample\ClientExample.csproj", "{3EEE2C5A-7B56-4A4E-914C-BFC963E15A4F}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MLAPI.ServerList.Shared\MLAPI.ServerList.Shared.projitems*{49d8d72c-8e8c-43a7-a366-e1831ee24625}*SharedItemsImports = 5
+		MLAPI.ServerList.Shared\MLAPI.ServerList.Shared.projitems*{a9b57daf-7fbf-46cf-9bd9-36e925b6efaa}*SharedItemsImports = 5
+		MLAPI.ServerList.Shared\MLAPI.ServerList.Shared.projitems*{e4a4f493-8e04-4cbd-b35a-ea6ba2770045}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -27,5 +33,11 @@ Global
 		{3EEE2C5A-7B56-4A4E-914C-BFC963E15A4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EEE2C5A-7B56-4A4E-914C-BFC963E15A4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EEE2C5A-7B56-4A4E-914C-BFC963E15A4F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {43D219E6-A9CD-47AC-A3F4-264718C82F6C}
 	EndGlobalSection
 EndGlobal
