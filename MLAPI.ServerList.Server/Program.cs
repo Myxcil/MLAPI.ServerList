@@ -140,7 +140,17 @@ namespace MLAPI.ServerList.Server
             {
                 socket.BeginReceive(receiveBuffers[socket], readOffset, targetLength - position, SocketFlags.None, (e) =>
                 {
-                    int data = socket.EndReceive(e);
+                    int data = 0;
+
+                    try
+                    {
+                        data = socket.EndReceive(e);
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        data = 0;
+                    }
 
                     if (data <= 0)
                     {
