@@ -26,7 +26,7 @@ namespace MLAPI.ServerList.Server
 
         public static void Main(string[] args)
         {
-            Console.WriteLine("Starting server...");
+            Console.WriteLine(string.Format("{0}: Starting server...", DateTime.Now));
 
             string currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string configPath = Path.Combine(currentPath, "config.json");
@@ -222,8 +222,6 @@ namespace MLAPI.ServerList.Server
 
                         if (messageType == (byte)MessageType.RegisterServer)
                         {
-                            Console.WriteLine("[Register] Started");
-
                             // Parse contract
                             Dictionary<string, ContractValue> contractValues = new Dictionary<string, ContractValue>();
                             int valueCount = reader.ReadInt32();
@@ -382,11 +380,7 @@ namespace MLAPI.ServerList.Server
 
                             if (configuration.VerbosePrints)
                             {
-                                Console.WriteLine("[Register] Adding: " + JsonConvert.SerializeObject(server));
-                            }
-                            else
-                            {
-                                Console.WriteLine("[Register] Adding 1 server");
+                                Console.WriteLine(string.Format("{0}: add {1}", DateTime.Now, JsonConvert.SerializeObject(server)));
                             }
 
                             if (configuration.UseMongo)
@@ -417,37 +411,22 @@ namespace MLAPI.ServerList.Server
                         else if (messageType == (byte)MessageType.Query)
                         {
                             DateTime startTime = DateTime.Now;
-                            Console.WriteLine("[Query] Started");
                             string guid = reader.ReadString();
                             string query = reader.ReadString();
-                            Console.WriteLine("[Query] Parsing");
+
                             JObject parsedQuery = JObject.Parse(query);
 
                             List<ServerModel> serverModel = null;
 
                             if (configuration.UseMongo)
                             {
-                                Console.WriteLine("[Query] Creating mongo filter");
                                 FilterDefinition<ServerModel> filter = Builders<ServerModel>.Filter.And(Builders<ServerModel>.Filter.Where(x => x.LastPingTime >= DateTime.UtcNow.AddMilliseconds(-configuration.ServerTimeout)), QueryParser.CreateFilter(new List<JToken>() { parsedQuery }));
-
-                                if (configuration.VerbosePrints)
-                                {
-                                    Console.WriteLine("[Query] Executing mongo query \"" + mongoClient.GetDatabase(configuration.MongoDatabase).GetCollection<ServerModel>("servers").Find(filter) + "\"");
-                                }
-                                else
-                                {
-                                    Console.WriteLine("[Query] Executing mongo query");
-                                }
-
                                 serverModel = await (await mongoClient.GetDatabase(configuration.MongoDatabase).GetCollection<ServerModel>("servers").FindAsync(filter)).ToListAsync();
                             }
                             else
                             {
-                                Console.WriteLine("[Query] Querying local");
                                 serverModel = localModels.AsParallel().Where(x => x.LastPingTime >= DateTime.UtcNow.AddMilliseconds(-configuration.ServerTimeout) && QueryParser.FilterLocalServers(new List<JToken>() { parsedQuery }, x)).ToList();
                             }
-
-                            Console.WriteLine("[Query] Found " + (serverModel == null ? 0 : serverModel.Count) + " results. Total query time: " + (DateTime.Now - startTime).TotalMilliseconds + " ms");
 
                             using (MemoryStream outStream = new MemoryStream())
                             {
@@ -518,16 +497,11 @@ namespace MLAPI.ServerList.Server
                         }
                         else if (messageType == (byte)MessageType.ServerAlive)
                         {
-                            Console.WriteLine("[Alive] Started");
                             Guid guid = new Guid(reader.ReadString());
 
                             if (configuration.VerbosePrints)
                             {
-                                Console.WriteLine("[Alive] Parsed from " + guid.ToString());
-                            }
-                            else
-                            {
-                                Console.WriteLine("[Alive] Parsed");
+                                Console.WriteLine(string.Format("{0}: alive from {1}", DateTime.Now, guid.ToString()));
                             }
 
                             if (configuration.UseMongo)
@@ -552,17 +526,7 @@ namespace MLAPI.ServerList.Server
                         }
                         else if (messageType == (byte)MessageType.RemoveServer)
                         {
-                            Console.WriteLine("[Remove] Started");
                             Guid guid = new Guid(reader.ReadString());
-
-                            if (configuration.VerbosePrints)
-                            {
-                                Console.WriteLine("[Remove] Parsed from " + guid.ToString());
-                            }
-                            else
-                            {
-                                Console.WriteLine("[Remove] Parsed");
-                            }
 
                             ServerModel model = null;
 
@@ -588,11 +552,7 @@ namespace MLAPI.ServerList.Server
                             {
                                 if (configuration.VerbosePrints)
                                 {
-                                    Console.WriteLine("[Remove] Removed: " + JsonConvert.SerializeObject(model));
-                                }
-                                else
-                                {
-                                    Console.WriteLine("[Remove] Removed 1 element");
+                                    Console.WriteLine(string.Format("{0}: removed {1}", DateTime.Now, JsonConvert.SerializeObject(model)));
                                 }
                             }
                             else
